@@ -1,6 +1,6 @@
 package com.mcdb.MovieCharacters.services;
 
-import com.mcdb.MovieCharacters.models.MovieCharacter;
+import com.mcdb.MovieCharacters.models.Character;
 import com.mcdb.MovieCharacters.repositories.CharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,22 +17,22 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public MovieCharacter findById(Integer integer) {
+    public Character findById(Integer integer) {
         return null;
     }
 
     @Override
-    public Collection<MovieCharacter> findAll() {
+    public Collection<Character> findAll() {
         return characterRepository.findAll();
     }
 
     @Override
-    public MovieCharacter add(MovieCharacter entity) {
+    public Character add(Character entity) {
         return null;
     }
 
     @Override
-    public MovieCharacter update(MovieCharacter entity) {
+    public Character update(Character entity) {
         return null;
     }
 

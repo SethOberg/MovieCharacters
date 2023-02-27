@@ -1,6 +1,6 @@
 package com.mcdb.MovieCharacters.services;
 
-import com.mcdb.MovieCharacters.models.MovieCharacter;
+import com.mcdb.MovieCharacters.models.Character;
 
-public interface CharacterService extends CrudService<MovieCharacter, Integer> {
+public interface CharacterService extends CrudService<Character, Integer> {
 }
