@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -39,15 +40,18 @@ public class Movie {
             joinColumns = {@JoinColumn(name = "movie_id")},
             inverseJoinColumns = {@JoinColumn(name = "character_id")}
     )
-    private Set<Character> characters;
+    private Set<Character> characters = new HashSet<>();
 
-    public Movie(int id, String title, String genre, String year, String director, String posterUrl, String trailerUrl) {
-        this.id = id;
+    public Movie(String title, String genre, String year, String director, String posterUrl, String trailerUrl) {
         this.title = title;
         this.genre = genre;
         this.year = year;
         this.director = director;
         this.posterUrl = posterUrl;
         this.trailerUrl = trailerUrl;
+    }
+
+    public void addCharacterToMovie(Character character) {
+        characters.add(character);
     }
 }

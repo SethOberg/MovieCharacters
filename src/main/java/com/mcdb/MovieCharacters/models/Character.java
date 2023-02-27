@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,8 +25,18 @@ public class Character {
     @Column(length = 150)
     private String pictureUrl;
     @ManyToMany(mappedBy = "characters")
-    private Set<Movie> movies;
+    private Set<Movie> movies = new HashSet<>();
 
-//    public Character(int i, String name, String someAlias, String m, String s) {
-//    }
+
+    public Character(String fullName, String alias, String gender, String pictureUrl) {
+        this.fullName = fullName;
+        this.alias = alias;
+        this.gender = gender;
+        this.pictureUrl = pictureUrl;
+    }
+
+    public void addMovieToCharacter(Movie movie) {
+        movies.add(movie);
+    }
+    
 }
