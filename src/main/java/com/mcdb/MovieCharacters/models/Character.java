@@ -1,5 +1,7 @@
 package com.mcdb.MovieCharacters.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +11,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Character {
@@ -24,6 +25,7 @@ public class Character {
     private String gender;
     @Column(length = 150)
     private String pictureUrl;
+
     @ManyToMany(mappedBy = "characters")
     private Set<Movie> movies = new HashSet<>();
 
@@ -38,5 +40,54 @@ public class Character {
     public void addMovieToCharacter(Movie movie) {
         movies.add(movie);
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
+
+
+    @JsonIgnore
+    public Set<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(Set<Movie> movies) {
+        this.movies = movies;
+    }
 }

@@ -10,7 +10,6 @@ import java.util.Set;
 
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Franchise {
@@ -34,4 +33,35 @@ public class Franchise {
         movies.add(movie);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(Set<Movie> movies) {
+        this.movies = movies;
+    }
 }

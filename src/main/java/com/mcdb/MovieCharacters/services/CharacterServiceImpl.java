@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
@@ -17,8 +18,10 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public Character findById(Integer integer) {
-        return null;
+    public Character findById(Integer id) {
+        Optional<Character> character = characterRepository.findById(id);
+
+        return character.get();
     }
 
     @Override

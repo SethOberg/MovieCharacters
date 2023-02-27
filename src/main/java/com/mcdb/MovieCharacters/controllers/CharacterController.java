@@ -29,8 +29,8 @@ public class CharacterController {
     }
 
     @GetMapping("{id}")
-    public Character getCharacter(@PathVariable String id) {
-        return null;
+    public Character getCharacter(@PathVariable Integer id) {
+        return characterService.findById(id);
     }
 
 
