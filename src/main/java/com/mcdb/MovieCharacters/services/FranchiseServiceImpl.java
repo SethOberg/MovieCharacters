@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class FranchiseServiceImpl implements FranchiseService {
@@ -19,26 +20,27 @@ public class FranchiseServiceImpl implements FranchiseService {
 
     @Override
     public Franchise findById(Integer integer) {
-        return null;
+        Optional<Franchise> franchise = franchiseRepository.findById(integer);
+        return franchise.get();
     }
 
     @Override
     public Collection<Franchise> findAll() {
-        return null;
+        return franchiseRepository.findAll();
     }
 
     @Override
     public Franchise add(Franchise entity) {
-        return null;
+        return franchiseRepository.save(entity);
     }
 
     @Override
     public Franchise update(Franchise entity) {
-        return null;
+        return franchiseRepository.save(entity);
     }
 
     @Override
     public void deleteById(Integer integer) {
-
+        franchiseRepository.deleteById(integer);
     }
 }
