@@ -1,8 +1,11 @@
 package com.mcdb.MovieCharacters.controllers;
 
+import com.mcdb.MovieCharacters.mappers.CharacterMapper;
 import com.mcdb.MovieCharacters.models.Character;
+import com.mcdb.MovieCharacters.models.dtos.CharacterDto;
 import com.mcdb.MovieCharacters.services.CharacterServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -11,10 +14,12 @@ import java.util.Collection;
 @RequestMapping(path = "api/v1/characters")
 public class CharacterController {
     private CharacterServiceImpl characterService;
+    private final CharacterMapper characterMapper;
 
     @Autowired
-    public CharacterController(CharacterServiceImpl characterService) {
+    public CharacterController(CharacterServiceImpl characterService, CharacterMapper characterMapper) {
         this.characterService = characterService;
+        this.characterMapper = characterMapper;
     }
 
     @PostMapping
@@ -28,9 +33,11 @@ public class CharacterController {
         return characterService.findAll();
     }
 
+
     @GetMapping("{id}")
-    public Character getCharacter(@PathVariable Integer id) {
-        return characterService.findById(id);
+    public ResponseEntity getCharacter(@PathVariable Integer id) {
+        CharacterDto dto = characterMapper.characterToCharacterDto(characterService.findById(id));
+        return ResponseEntity.ok(dto);
     }
 
 

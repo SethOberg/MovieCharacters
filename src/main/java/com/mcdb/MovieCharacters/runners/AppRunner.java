@@ -18,7 +18,7 @@ public class AppRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Character test = new Character(3, "name", "some alias", "m", "someurl/image/someid.jpg", new HashSet<>());
-        characterRepository.save(test);
+//        Character test = new Character(3, "name", "some alias", "m", "someurl/image/someid.jpg", new HashSet<>());
+//        characterRepository.save(test);
     }
 }

@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 public class Character {
     @Id
@@ -26,6 +25,8 @@ public class Character {
     @Column(length = 150)
     private String pictureUrl;
 
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "characters")
     private Set<Movie> movies = new HashSet<>();
 
@@ -82,7 +83,6 @@ public class Character {
     }
 
 
-    @JsonIgnore
     public Set<Movie> getMovies() {
         return movies;
     }
