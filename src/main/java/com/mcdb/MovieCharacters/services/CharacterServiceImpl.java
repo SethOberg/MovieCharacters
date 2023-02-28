@@ -31,16 +31,16 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public Character add(Character entity) {
-        return null;
+        return characterRepository.save(entity);
     }
 
     @Override
     public Character update(Character entity) {
-        return null;
+        return characterRepository.save(entity);
     }
 
     @Override
     public void deleteById(Integer integer) {
-
+        characterRepository.deleteById(integer);
     }
 }

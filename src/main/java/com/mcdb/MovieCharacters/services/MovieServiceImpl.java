@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
     public class MovieServiceImpl implements MovieService {
@@ -17,7 +18,8 @@ import java.util.Collection;
     }
     @Override
     public Movie findById(Integer integer) {
-            return null;
+        Optional<Movie> movie = movieRepository.findById(integer);
+            return movie.get() ;
         }
     @Override
     public Collection<Movie> findAll() {
@@ -27,7 +29,7 @@ import java.util.Collection;
     @Override
     public Movie add(Movie entity) { return null; }
     @Override
-    public Movie update(Movie entity) { return null; }
+    public Movie update(Movie entity) { return movieRepository.save(entity); }
     @Override
     public void deleteById(Integer integer) { }
 }
