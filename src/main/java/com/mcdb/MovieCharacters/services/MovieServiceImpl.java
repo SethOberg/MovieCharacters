@@ -21,16 +21,16 @@ import java.util.Optional;
         Optional<Movie> movie = movieRepository.findById(integer);
             return movie.get() ;
         }
+
     @Override
     public Collection<Movie> findAll() {
         return movieRepository.findAll();
     }
-
     @Override
-    public Movie add(Movie entity) { return null; }
+    public Movie add(Movie entity) { return movieRepository.save(entity); }
     @Override
     public Movie update(Movie entity) { return movieRepository.save(entity); }
     @Override
-    public void deleteById(Integer integer) { }
+    public void deleteById(Integer integer) { movieRepository.deleteById(integer); }
 }
 
