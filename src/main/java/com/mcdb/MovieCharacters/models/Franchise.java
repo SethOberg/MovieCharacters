@@ -29,8 +29,13 @@ public class Franchise {
         this.description = description;
     }
 
-    public void addMovie(Movie movie) {
+    public void addMovieToFranchise(Movie movie) {
         movies.add(movie);
+    }
+
+    public void deleteMovieFromFranchise(Movie movie) {
+        movies.remove(movie);
+
     }
 
     public int getId() {

@@ -69,13 +69,13 @@ public class MovieCharactersApplication implements ApplicationRunner {
 
 		//Franchise
 		Franchise harryPotterFranchise = new Franchise("Harry potter", "Harry potter");
-		harryPotterFranchise.addMovie(hp1);
-		harryPotterFranchise.addMovie(hp2);
+		harryPotterFranchise.addMovieToFranchise(hp1);
+		harryPotterFranchise.addMovieToFranchise(hp2);
 		franchiseRepository.save(harryPotterFranchise);
 
 		//Franchise - Movie relations
 		Franchise marvelFranchise = new Franchise("Marvel", "Marvel cinematic universe");
-		marvelFranchise.addMovie(mcu);
+		marvelFranchise.addMovieToFranchise(mcu);
 		franchiseRepository.save(marvelFranchise);
 
 		hp1.setFranchise(harryPotterFranchise);

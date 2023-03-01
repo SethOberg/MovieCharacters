@@ -55,6 +55,10 @@ public class Movie {
         characters.add(character);
     }
 
+    public void deleteCharacterFromMovie(Character character) {
+        characters.remove(character);
+    }
+
     public int getId() {
         return id;
     }

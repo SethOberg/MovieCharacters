@@ -42,6 +42,10 @@ public class Character {
         movies.add(movie);
     }
 
+    public void deleteMovieFromCharacter(Movie movie) {
+        movies.remove(movie);
+    }
+
     public int getId() {
         return id;
     }

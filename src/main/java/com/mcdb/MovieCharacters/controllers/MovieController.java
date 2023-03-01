@@ -1,10 +1,13 @@
 package com.mcdb.MovieCharacters.controllers;
 
+import com.mcdb.MovieCharacters.mappers.FranchiseMapper;
 import com.mcdb.MovieCharacters.mappers.MovieMapper;
 import com.mcdb.MovieCharacters.models.Character;
+import com.mcdb.MovieCharacters.models.Franchise;
 import com.mcdb.MovieCharacters.models.Movie;
 import com.mcdb.MovieCharacters.models.dtos.MovieDto;
 import com.mcdb.MovieCharacters.services.CharacterServiceImpl;
+import com.mcdb.MovieCharacters.services.FranchiseServiceImpl;
 import com.mcdb.MovieCharacters.services.MovieServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +22,17 @@ import java.util.stream.Collectors;
 public class MovieController {
         private MovieServiceImpl movieService;
         private CharacterServiceImpl characterService;
+        private FranchiseServiceImpl franchiseService;
         private final MovieMapper movieMapper;
 
 
 
         @Autowired
-        public MovieController(MovieServiceImpl movieService, CharacterServiceImpl characterService, MovieMapper movieMapper) {
+        public MovieController(MovieServiceImpl movieService, CharacterServiceImpl characterService, MovieMapper movieMapper, FranchiseServiceImpl franchiseService) {
             this.movieService = movieService;
             this.characterService = characterService;
             this.movieMapper = movieMapper;
+            this.franchiseService = franchiseService;
         }
 
         @PostMapping
@@ -59,6 +64,18 @@ public class MovieController {
         movieService.update(movie);
     }
 
+    @PutMapping("{movieId}/{franchiseId}")
+    public void addFranchiseToMovie(@PathVariable Integer movieId,
+                                    @PathVariable Integer franchiseId) {
+        Movie movie = movieService.findById(movieId);
+        Franchise franchise = franchiseService.findById(franchiseId);
+        movie.setFranchise(franchise);
+        franchise.addMovieToFranchise(movie);
+        franchiseService.update(franchise);
+        movieService.update(movie);
+    }
+
+
     @PutMapping("{movieId}/{characterId}")
     public void addCharacterToMovie(@PathVariable Integer movieId,
                                     @PathVariable Integer characterId) {
@@ -86,7 +103,23 @@ public class MovieController {
         }
         movieService.update(movie);
     }
-    
+
+    @PutMapping("{movieId}/{oldCharacterId}/change")
+    public void changeMovieInFranchise(@PathVariable Integer movieId, @PathVariable Integer oldCharacterId,
+                                       @RequestBody Integer newCharacterId) {
+        Movie movie = movieService.findById(movieId);
+        Character oldCharacter = characterService.findById(oldCharacterId);
+        Character newCharacter = characterService.findById(newCharacterId);
+        movie.deleteCharacterFromMovie(oldCharacter);
+        movie.addCharacterToMovie(newCharacter);
+        oldCharacter.deleteMovieFromCharacter(movie);
+
+        movieService.update(movie);
+        characterService.update(oldCharacter);
+        characterService.update(newCharacter);
+    }
+
+
     }
 
 

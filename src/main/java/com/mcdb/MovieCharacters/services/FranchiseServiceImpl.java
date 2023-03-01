@@ -39,6 +39,7 @@ public class FranchiseServiceImpl implements FranchiseService {
         return franchiseRepository.save(entity);
     }
 
+
     @Override
     public void deleteById(Integer integer) {
         franchiseRepository.deleteById(integer);
