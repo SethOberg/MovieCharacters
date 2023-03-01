@@ -70,7 +70,25 @@ public class MovieController {
         characterService.update(character);
     }
 
+    @PutMapping("{movieId}/add")
+    public void addCharactersToMovie(@PathVariable Integer movieId,
+                                     @RequestBody List<Integer> characterIds) {
+        Movie movie = movieService.findById(movieId);
+        List<Character> characters = characterIds.stream()
+                .map(characterService::findById)
+                .collect(Collectors.toList());
+
+        for (Character character1 : characters) {
+            movie.addCharacterToMovie(character1);
+            character1.addMovieToCharacter(movie);
+            characterService.update(character1);
+
+        }
+        movieService.update(movie);
     }
+    
+    }
+
 
 
 
