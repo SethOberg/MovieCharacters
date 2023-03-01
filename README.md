@@ -5,6 +5,8 @@
 * Lombok
 * Postgresql
 * Spring data jpa
+* Mapstruct
+* Swagger
 
 ## Contributors
 * Milovan Glisovic
