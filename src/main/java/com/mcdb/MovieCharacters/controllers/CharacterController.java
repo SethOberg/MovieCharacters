@@ -1,9 +1,11 @@
 package com.mcdb.MovieCharacters.controllers;
 
 import com.mcdb.MovieCharacters.mappers.CharacterMapper;
+import com.mcdb.MovieCharacters.mappers.MovieMapper;
 import com.mcdb.MovieCharacters.models.Character;
 import com.mcdb.MovieCharacters.models.Movie;
 import com.mcdb.MovieCharacters.models.dtos.CharacterDto;
+import com.mcdb.MovieCharacters.models.dtos.MovieDto;
 import com.mcdb.MovieCharacters.services.CharacterServiceImpl;
 import com.mcdb.MovieCharacters.services.MovieServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,15 @@ public class CharacterController {
     private CharacterServiceImpl characterService;
     private MovieServiceImpl movieService;
     private final CharacterMapper characterMapper;
+    private final MovieMapper movieMapper;
 
     @Autowired
-    public CharacterController(CharacterServiceImpl characterService, MovieServiceImpl movieService, CharacterMapper characterMapper) {
+    public CharacterController(CharacterServiceImpl characterService, MovieServiceImpl movieService,
+                               CharacterMapper characterMapper, MovieMapper movieMapper) {
         this.characterService = characterService;
         this.characterMapper = characterMapper;
         this.movieService = movieService;
+        this.movieMapper = movieMapper;
     }
 
     @PostMapping
@@ -68,6 +73,16 @@ public class CharacterController {
         movie.addCharacterToMovie(character);
         characterService.update(character);
         movieService.update(movie);
+    }
+
+    @GetMapping("{id}/movies")
+    public List<MovieDto> getMoviesCharacterIsIn(@PathVariable Integer id) {
+        List<MovieDto> movieDtos = characterService.findById(id).getMovies()
+                .stream()
+                .map((movie -> movieMapper.moveToMovieDto(movie)))
+                .collect(Collectors.toList());
+
+        return movieDtos;
     }
 
 }

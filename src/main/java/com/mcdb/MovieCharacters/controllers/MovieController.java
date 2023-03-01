@@ -1,10 +1,12 @@
 package com.mcdb.MovieCharacters.controllers;
 
+import com.mcdb.MovieCharacters.mappers.CharacterMapper;
 import com.mcdb.MovieCharacters.mappers.FranchiseMapper;
 import com.mcdb.MovieCharacters.mappers.MovieMapper;
 import com.mcdb.MovieCharacters.models.Character;
 import com.mcdb.MovieCharacters.models.Franchise;
 import com.mcdb.MovieCharacters.models.Movie;
+import com.mcdb.MovieCharacters.models.dtos.CharacterDto;
 import com.mcdb.MovieCharacters.models.dtos.MovieDto;
 import com.mcdb.MovieCharacters.services.CharacterServiceImpl;
 import com.mcdb.MovieCharacters.services.FranchiseServiceImpl;
@@ -24,15 +26,19 @@ public class MovieController {
         private CharacterServiceImpl characterService;
         private FranchiseServiceImpl franchiseService;
         private final MovieMapper movieMapper;
+        private final CharacterMapper characterMapper;
 
 
 
         @Autowired
-        public MovieController(MovieServiceImpl movieService, CharacterServiceImpl characterService, MovieMapper movieMapper, FranchiseServiceImpl franchiseService) {
+        public MovieController(MovieServiceImpl movieService, CharacterServiceImpl characterService,
+                               MovieMapper movieMapper, FranchiseServiceImpl franchiseService,
+                               CharacterMapper characterMapper) {
             this.movieService = movieService;
             this.characterService = characterService;
             this.movieMapper = movieMapper;
             this.franchiseService = franchiseService;
+            this.characterMapper = characterMapper;
         }
 
         @PostMapping
@@ -117,6 +123,17 @@ public class MovieController {
         movieService.update(movie);
         characterService.update(oldCharacter);
         characterService.update(newCharacter);
+    }
+
+
+    @GetMapping("{id}/characters")
+    public List<CharacterDto> getCharactersInAMovies(@PathVariable Integer id) {
+        List<CharacterDto> characterDtos = movieService.findById(id).getCharacters()
+                .stream()
+                .map((character -> characterMapper.characterToCharacterDto(character)))
+                .collect(Collectors.toList());
+
+        return characterDtos;
     }
 
 

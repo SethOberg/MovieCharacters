@@ -1,18 +1,22 @@
 package com.mcdb.MovieCharacters.controllers;
 
+import com.mcdb.MovieCharacters.mappers.CharacterMapper;
 import com.mcdb.MovieCharacters.mappers.FranchiseMapper;
 import com.mcdb.MovieCharacters.mappers.MovieMapper;
 import com.mcdb.MovieCharacters.models.Franchise;
 import com.mcdb.MovieCharacters.models.Movie;
+import com.mcdb.MovieCharacters.models.dtos.CharacterDto;
 import com.mcdb.MovieCharacters.models.dtos.FranchiseDto;
 import com.mcdb.MovieCharacters.models.dtos.FranchiseGetMoviesDto;
 import com.mcdb.MovieCharacters.models.dtos.MovieDto;
+import com.mcdb.MovieCharacters.services.CharacterServiceImpl;
 import com.mcdb.MovieCharacters.services.FranchiseServiceImpl;
 import com.mcdb.MovieCharacters.services.MovieServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,16 +25,26 @@ public class FranchiseController {
     private FranchiseServiceImpl franchiseService;
 
     private MovieServiceImpl movieService;
+
+    private CharacterServiceImpl characterService;
+
     private final FranchiseMapper franchiseMapper;
 
     private final MovieMapper movieMapper;
 
+    private final CharacterMapper characterMapper;
+
     @Autowired
-    public FranchiseController(FranchiseServiceImpl franchiseService, FranchiseMapper franchiseMapper, MovieServiceImpl movieService, MovieMapper movieMapper ) {
+    public FranchiseController(FranchiseServiceImpl franchiseService, FranchiseMapper franchiseMapper,
+                               MovieServiceImpl movieService, MovieMapper movieMapper,
+                               CharacterServiceImpl characterService,
+                               CharacterMapper characterMapper) {
         this.franchiseService = franchiseService;
         this.franchiseMapper = franchiseMapper;
         this.movieService = movieService;
         this.movieMapper = movieMapper;
+        this.characterService = characterService;
+        this.characterMapper = characterMapper;
     }
 
     @PostMapping
@@ -101,6 +115,19 @@ public class FranchiseController {
         List<MovieDto> movieDtos = franchiseService.findById(id).getMovies().stream().map((movie) -> movieMapper.moveToMovieDto(movie)).collect(Collectors.toList());
 
         return movieDtos;
+    }
+
+    @GetMapping("{id}/movies/characters")
+    public List<CharacterDto> getCharactersInFranchise(@PathVariable Integer id) {
+        List<Movie> movies = franchiseService.findById(id).getMovies().stream().collect(Collectors.toList());
+        List<CharacterDto> characterDtos =
+                movies.stream()
+                        .flatMap((characters) -> characters.getCharacters().stream())
+                        .map(character -> characterMapper.characterToCharacterDto(character))
+                        .distinct()
+                        .collect(Collectors.toList());
+
+        return characterDtos;
     }
 
 
