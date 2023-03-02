@@ -8,6 +8,12 @@ import com.mcdb.MovieCharacters.models.dtos.CharacterDto;
 import com.mcdb.MovieCharacters.models.dtos.MovieDto;
 import com.mcdb.MovieCharacters.services.CharacterServiceImpl;
 import com.mcdb.MovieCharacters.services.MovieServiceImpl;
+import com.mcdb.MovieCharacters.util.ApiErrorResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,9 +55,23 @@ public class CharacterController {
     }
 
 
+    @Operation(summary = "Get character by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Success",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CharacterDto.class)) }
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "Character does not exist with supplied ID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+
+    })
     @GetMapping("{id}")
     public ResponseEntity getCharacter(@PathVariable Integer id) {
         CharacterDto dto = characterMapper.characterToCharacterDto(characterService.findById(id));
+
         return ResponseEntity.ok(dto);
     }
 

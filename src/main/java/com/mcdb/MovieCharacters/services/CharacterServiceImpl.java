@@ -1,5 +1,6 @@
 package com.mcdb.MovieCharacters.services;
 
+import com.mcdb.MovieCharacters.exceptions.CharacterNotFoundException;
 import com.mcdb.MovieCharacters.models.Character;
 import com.mcdb.MovieCharacters.repositories.CharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,8 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public Character findById(Integer id) {
-        Optional<Character> character = characterRepository.findById(id);
-
-        return character.get();
+        return characterRepository.findById(id)
+                .orElseThrow(() -> new CharacterNotFoundException(id));
     }
 
     @Override
