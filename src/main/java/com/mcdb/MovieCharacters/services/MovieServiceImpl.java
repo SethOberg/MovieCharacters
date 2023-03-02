@@ -1,6 +1,9 @@
 package com.mcdb.MovieCharacters.services;
 
 
+import com.mcdb.MovieCharacters.exceptions.CharacterNotFoundException;
+import com.mcdb.MovieCharacters.exceptions.MovieNotFoundException;
+import com.mcdb.MovieCharacters.models.Character;
 import com.mcdb.MovieCharacters.models.Movie;
 import com.mcdb.MovieCharacters.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +20,10 @@ import java.util.Optional;
         this.movieRepository = movieRepository;
     }
     @Override
-    public Movie findById(Integer integer) {
-        Optional<Movie> movie = movieRepository.findById(integer);
-            return movie.get() ;
+    public Movie findById(Integer id) {
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new MovieNotFoundException(id));
         }
-
     @Override
     public Collection<Movie> findAll() {
         return movieRepository.findAll();
@@ -29,10 +31,11 @@ import java.util.Optional;
     @Override
     public Movie add(Movie entity) { return movieRepository.save(entity); }
     @Override
-    public Movie update(Movie entity) { return movieRepository.save(entity); }
+    public Movie update(Movie entity) {
+        findById(entity.getId());
+        return movieRepository.save(entity); }
     @Override
     public void deleteById(Integer integer) { movieRepository.deleteById(integer); }
 
-    //TODO Alla metoder står ej inskrivna här
 }
 

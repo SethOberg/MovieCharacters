@@ -36,11 +36,11 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public Character update(Character entity) {
+        findById(entity.getId());
         return characterRepository.save(entity);
     }
-
     @Override
-    public void deleteById(Integer integer) {
-        characterRepository.deleteById(integer);
-    }
+    public void deleteById(Integer id) {
+        findById(id);
+        characterRepository.deleteById(id);}
 }

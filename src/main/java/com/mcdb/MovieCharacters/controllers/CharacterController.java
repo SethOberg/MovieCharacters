@@ -90,8 +90,11 @@ public class CharacterController {
         characterService.deleteById(id);
     }
 
+    //If id in body is different from the path, return badRequest
     @PutMapping("{id}")
     public void updateCharacter(@PathVariable Integer id,  @RequestBody Character character) {
+        if(id != character.getId())
+            ResponseEntity.badRequest().build();
         characterService.update(character);
     }
 

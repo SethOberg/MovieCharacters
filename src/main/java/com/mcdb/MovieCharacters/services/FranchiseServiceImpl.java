@@ -1,5 +1,7 @@
 package com.mcdb.MovieCharacters.services;
 
+import com.mcdb.MovieCharacters.exceptions.FranchiseNotFoundException;
+import com.mcdb.MovieCharacters.exceptions.MovieNotFoundException;
 import com.mcdb.MovieCharacters.models.Franchise;
 import com.mcdb.MovieCharacters.repositories.FranchiseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,9 @@ public class FranchiseServiceImpl implements FranchiseService {
     }
 
     @Override
-    public Franchise findById(Integer integer) {
-        Optional<Franchise> franchise = franchiseRepository.findById(integer);
-        return franchise.get();
+    public Franchise findById(Integer id) {
+        return franchiseRepository.findById(id)
+                .orElseThrow(() -> new FranchiseNotFoundException(id));
     }
 
     @Override
@@ -36,9 +38,9 @@ public class FranchiseServiceImpl implements FranchiseService {
 
     @Override
     public Franchise update(Franchise entity) {
+        findById(entity.getId());
         return franchiseRepository.save(entity);
     }
-
 
     @Override
     public void deleteById(Integer integer) {

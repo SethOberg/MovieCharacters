@@ -11,6 +11,12 @@ import com.mcdb.MovieCharacters.models.dtos.MovieDto;
 import com.mcdb.MovieCharacters.services.CharacterServiceImpl;
 import com.mcdb.MovieCharacters.services.FranchiseServiceImpl;
 import com.mcdb.MovieCharacters.services.MovieServiceImpl;
+import com.mcdb.MovieCharacters.util.ApiErrorResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +61,20 @@ public class MovieController {
             return dtos;
         }
 
+
+    @Operation(summary = "Get movie by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Success",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MovieDto.class)) }
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "Movie does not exist with supplied ID",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+
+    })
         @GetMapping("{id}")
         public ResponseEntity getMovie(@PathVariable Integer id) {
             MovieDto dto = movieMapper.moveToMovieDto(movieService.findById(id));
