@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -61,7 +62,27 @@ public class MovieController {
         }
 
     @DeleteMapping("{id}")
-    public void deleteCharacter(@PathVariable Integer id) {
+    public void deleteMovie(@PathVariable Integer id) {
+        List<Character> allCharacters = (List<Character>) characterService.findAll();
+        List<Franchise> allFranchises = (List<Franchise>) franchiseService.findAll();
+
+        for(Character character : allCharacters) {
+            Set<Movie> movies = character.getMovies().stream()
+                    .filter(movie -> movie.getId() != id)
+                    .collect(Collectors.toSet());
+            character.setMovies(movies);
+            characterService.update(character);
+        }
+
+        for(Franchise franchise : allFranchises) {
+            Set<Movie> movies = franchise.getMovies().stream()
+                    .filter(movie -> movie.getId() != id)
+                    .collect(Collectors.toSet());
+
+            franchise.setMovies(movies);
+            franchiseService.update(franchise);
+        }
+
         movieService.deleteById(id);
     }
 

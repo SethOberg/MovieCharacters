@@ -66,6 +66,16 @@ public class FranchiseController {
         return franchiseDto;
     }
 
+    @DeleteMapping("{id}")
+    public void deleteFranchise(@PathVariable Integer id) {
+        Franchise franchise = franchiseService.findById(id);
+
+        franchise.getMovies().stream()
+                .forEach((movie -> movie.setFranchise(null)));
+
+        franchiseService.deleteById(id);
+    }
+
     @PutMapping("{franchiseId}/{movieId}")
     public void addMoviesToFranchise(@PathVariable Integer franchiseId, @PathVariable Integer movieId) {
         Franchise franchise = franchiseService.findById(franchiseId);

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -56,6 +57,16 @@ public class CharacterController {
 
     @DeleteMapping("{id}")
     public void deleteCharacter(@PathVariable Integer id) {
+        List<Movie> allMovies = (List<Movie>) movieService.findAll();
+
+        for(Movie movie : allMovies) {
+            Set<Character> characters = movie.getCharacters().stream()
+                    .filter(character -> character.getId() != id)
+                    .collect(Collectors.toSet());
+            movie.setCharacters(characters);
+            movieService.update(movie);
+        }
+
         characterService.deleteById(id);
     }
 
