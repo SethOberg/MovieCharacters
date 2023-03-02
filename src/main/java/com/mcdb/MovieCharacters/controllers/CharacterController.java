@@ -56,7 +56,9 @@ public class CharacterController {
 
     @DeleteMapping("{id}")
     public void deleteCharacter(@PathVariable Integer id) {
+        
         characterService.deleteById(id);
+
     }
 
     @PutMapping("{id}")

@@ -7,7 +7,6 @@ import com.mcdb.MovieCharacters.models.Franchise;
 import com.mcdb.MovieCharacters.models.Movie;
 import com.mcdb.MovieCharacters.models.dtos.CharacterDto;
 import com.mcdb.MovieCharacters.models.dtos.FranchiseDto;
-import com.mcdb.MovieCharacters.models.dtos.FranchiseGetMoviesDto;
 import com.mcdb.MovieCharacters.models.dtos.MovieDto;
 import com.mcdb.MovieCharacters.services.CharacterServiceImpl;
 import com.mcdb.MovieCharacters.services.FranchiseServiceImpl;
